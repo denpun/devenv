@@ -1,0 +1,3 @@
+#!/bin/sh
+
+groupmod -g HOST_DOCKER_GROUP docker
