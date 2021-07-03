@@ -1,2 +1,5 @@
 .env
+devenv.env
 scripts/fixup_tasks.sh
+scripts/my_fixup_tasks.sh
+data

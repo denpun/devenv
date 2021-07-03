@@ -1,3 +1,22 @@
 #!/bin/sh
 
-groupmod -g HOST_DOCKER_GROUP docker
+env
+
+#make sure container docker GID is same as host docker GID
+groupmod -g $HOST_DOCKER_GID docker
+
+#make sure user is in sudo group
+if ! groups $CONTAINER_USER | grep -q sudo; then
+	usermod -aG $CONTAINER_USER sudo
+fi
+
+#make sure user is in sudo group
+if ! groups $CONTAINER_USER | grep -q docker; then
+	usermod -aG $CONTAINER_USER docker
+fi
+
+#run users own fixup_tasks.sh script as root
+#make sure everything is non-interactive in script as it will be called during image building process
+if test -x /home/scripts/my_fixup_tasks.sh; then
+	/home/scripts/my_fixup_tasks.sh
+fi
